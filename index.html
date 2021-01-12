@@ -7,7 +7,6 @@
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -18,12 +17,20 @@
         font-size: 10px
     }
 
+    ::placeholder {
+        color: #78909c;
+    }
+
     .float-right {
         float: right;
     }
 
+    .gradient-background {
+        background-image: linear-gradient(to right, rgba(85, 145, 206, 0.30), rgba(91, 124, 190, 0.30), rgba(103, 98, 172, 0.30), rgba(109, 86, 164, 0.30));
+    }
+
     .logo {
-        max-width: 190px;
+        max-width: 290px;
     }
 
     .nav-wrapper {
@@ -74,88 +81,159 @@
         background-color: #fff;
         box-shadow: 0 2px 28px 0 rgba(198, 208, 229, .5);
     }
+
+    /*Login Page CSS*/
+    .login-icon {
+        border-right: 1px solid;
+    }
+
+    .login-input {
+        margin-bottom: 0px !important;
+        padding-left: 10px !important;
+    }
+
+    .login-row {
+        border: 2px solid #04003e;
+    }
+
+    input[type=text]:not(.browser-default) {
+        border-bottom: none !important
+    }
+
+    input[type=text]:not(.browser-default):focus:not([readonly]) {
+        box-shadow: none !important;
+    }
+
+    input[type=password]:not(.browser-default) {
+        border-bottom: none !important
+    }
+
+    input[type=password]:not(.browser-default):focus:not([readonly]) {
+        box-shadow: none !important;
+    }
+
+    .input-field .prefix.active {
+        color: #4087c9;
+    }
+
+    .after-color {
+        border: 2px solid #4087c9 !important;
+    }
 </style>
 <script>
+    //global variable
+    var token ="";
     function nevigate(show, hide) {
         document.getElementById(hide).style.display = "none";
         document.getElementById(show).style.display = "block";
+        document.getElementById("footer").style.display = "block";
+
     }
+
     function login(username, password) {
 
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+
+        var urlencoded = new URLSearchParams();
+        urlencoded.append("grant_type", "password");
+        urlencoded.append("client_id", "login-app");
+        urlencoded.append("username", "shiratech");
+        urlencoded.append("password", "shiratech");
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: urlencoded,
+            redirect: 'follow'
+        };
+
+        fetch("https://icomox.poc.icomoxlive.net/auth/realms/icomox/protocol/openid-connect/token", requestOptions)
+            .then(response => response.text())
+            .then(result => (token=JSON.parse(result).access_token))
+            .catch(error => console.log('error', error));
+    }
+
+    function focusInput(e) {
+        e.parentElement.classList.add("after-color");
+    }
+
+    function focusOut(e) {
+        e.parentElement.classList.remove("after-color");
     }
 
     var tableData = [{
-        "id": "07fe6dc8-1d3d-4cc4-b88a-c9fd0a40033b",
-        "deviceId": "12a79ea4bfff7c381ce7030038343038",
-        "alertType": "DEV_ALERT_SHAFT_LOOSE",
-        "alertLevel": 0,
-        "state": "CLOSED",
-        "created": "2021-01-10T09:20:53.475465Z",
-        "closed": "2021-01-10T09:31:14.447529Z",
-        "asset": {
-            "serial": "1234567899",
-            "name": "Orisol3 TOP FAIL",
-            "description": "Motor",
-            "assetGroup": "FAIL",
-            "polesCount": 4,
-            "priority": 5,
-            "maintenancePeriod": 0,
-            "id": "5809ff89-9b49-4b3b-ba54-ff0cc7f05ac5",
-            "devices": null,
-            "alerts": null,
-            "health": 0,
-            "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
-            "assetType": "GENERIC"
-        }
-    },
-    {
-        "id": "fd5dbb48-6dea-45c4-9f08-277222bfed9b",
-        "deviceId": "12a79e28afff5c3949ee030038343038",
-        "alertType": "DEV_ALERT_BEAR_WEAR",
-        "alertLevel": 2,
-        "state": "OPEN",
-        "created": "2021-01-07T16:21:28.201534Z",
-        "closed": null,
-        "asset": {
-            "serial": "111",
-            "name": "Shiratech Office Motor2",
-            "description": "Motor",
-            "assetGroup": "Shiratech Office",
-            "polesCount": 4,
-            "priority": 5,
-            "maintenancePeriod": 0,
-            "id": "285c62bf-23c7-430e-b5db-7c0119caedfb",
-            "devices": null,
-            "alerts": null,
-            "health": 0,
-            "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
-            "assetType": "GENERIC"
-        }
-    },
-    {
-        "id": "bd7c8ee6-3d6d-45c8-8207-f18a25787732",
-        "deviceId": "12a79e745f1efd384019040038343038",
-        "alertType": "DEV_ALERT_BEAR_WEAR",
-        "alertLevel": 2,
-        "state": "OPEN",
-        "created": "2021-01-07T16:21:28.774029Z",
-        "closed": null,
-        "asset": {
-            "serial": "90210",
-            "name": "Test Bench",
-            "description": "Motor",
-            "assetGroup": "Shiratech ",
-            "polesCount": 6,
-            "priority": 5,
-            "maintenancePeriod": 0,
-            "id": "5044c29f-720e-4b37-8939-2b2c06567fd3",
-            "devices": null,
-            "alerts": null,
-            "health": 0,
-            "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
-            "assetType": "GENERIC"
-        }
-    },
+            "id": "07fe6dc8-1d3d-4cc4-b88a-c9fd0a40033b",
+            "deviceId": "12a79ea4bfff7c381ce7030038343038",
+            "alertType": "DEV_ALERT_SHAFT_LOOSE",
+            "alertLevel": 0,
+            "state": "CLOSED",
+            "created": "2021-01-10T09:20:53.475465Z",
+            "closed": "2021-01-10T09:31:14.447529Z",
+            "asset": {
+                "serial": "1234567899",
+                "name": "Orisol3 TOP FAIL",
+                "description": "Motor",
+                "assetGroup": "FAIL",
+                "polesCount": 4,
+                "priority": 5,
+                "maintenancePeriod": 0,
+                "id": "5809ff89-9b49-4b3b-ba54-ff0cc7f05ac5",
+                "devices": null,
+                "alerts": null,
+                "health": 0,
+                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
+                "assetType": "GENERIC"
+            }
+        },
+        {
+            "id": "fd5dbb48-6dea-45c4-9f08-277222bfed9b",
+            "deviceId": "12a79e28afff5c3949ee030038343038",
+            "alertType": "DEV_ALERT_BEAR_WEAR",
+            "alertLevel": 2,
+            "state": "OPEN",
+            "created": "2021-01-07T16:21:28.201534Z",
+            "closed": null,
+            "asset": {
+                "serial": "111",
+                "name": "Shiratech Office Motor2",
+                "description": "Motor",
+                "assetGroup": "Shiratech Office",
+                "polesCount": 4,
+                "priority": 5,
+                "maintenancePeriod": 0,
+                "id": "285c62bf-23c7-430e-b5db-7c0119caedfb",
+                "devices": null,
+                "alerts": null,
+                "health": 0,
+                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
+                "assetType": "GENERIC"
+            }
+        },
+        {
+            "id": "bd7c8ee6-3d6d-45c8-8207-f18a25787732",
+            "deviceId": "12a79e745f1efd384019040038343038",
+            "alertType": "DEV_ALERT_BEAR_WEAR",
+            "alertLevel": 2,
+            "state": "OPEN",
+            "created": "2021-01-07T16:21:28.774029Z",
+            "closed": null,
+            "asset": {
+                "serial": "90210",
+                "name": "Test Bench",
+                "description": "Motor",
+                "assetGroup": "Shiratech ",
+                "polesCount": 6,
+                "priority": 5,
+                "maintenancePeriod": 0,
+                "id": "5044c29f-720e-4b37-8939-2b2c06567fd3",
+                "devices": null,
+                "alerts": null,
+                "health": 0,
+                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
+                "assetType": "GENERIC"
+            }
+        },
     ]
 
     function buildTable() {
@@ -168,44 +246,47 @@
                 <td><i class="material-icons">chevron_right</i></td>
             </tr>`
                 var table = $("#TableID")
-                console.log(table);
                 table.append(row)
-            }
-        }
-    }
-    function myFunction() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        // table = document.getElementsByClassName("content-table");
-        // tr = table.getElementsByTagName("tr");
-        tr = document.querySelectorAll('.device-table tr');
-        console.log(tr);
-        for (i = 0; i < tr.length; i++) {
-            if (!tr[i].classList.contains('header')) {
-                td = tr[i].getElementsByTagName("td"),
-                    match = false;
-                for (j = 0; j < td.length; j++) {
-                    if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
-                        match = true;
-                        break;
-                    }
-                }
-                if (!match) {
-                    tr[i].style.display = "none";
-                } else {
-                    tr[i].style.display = "";
-                }
             }
         }
     }
 </script>
 
 <body>
-    <div class="container" id="login" style="display: none;">
+    <div id="login" class="gradient-background">
+        <div class="container">
+            <div class="row" style="display:block;text-align: center; margin-top:70px">
+                <img class="logo"
+                    src="https://www.hitprojectscenter.com/matak/request/images/Shiratech_Logo_Pos_Hor.png">
+            </div>
+            <div class="container">
+                <div class="row" style="color:#04003e">
+                    <form class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12 login-row">
+                                <i class="material-icons prefix login-icon">account_circle</i>
+                                <input placeholder="USERNAME" id="icon_prefix" type="text" class=" login-input"
+                                    onfocusin="focusInput(this)" onfocusout="focusOut(this)">
+                            </div>
+                            <div class="input-field col s12 login-row">
+                                <i class="material-icons prefix login-icon">lock</i>
+                                <input placeholder="PASSWORD" id="icon_prefix" type="password" class=" login-input"
+                                    onfocusin="focusInput(this)" onfocusout="focusOut(this)">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12" style="padding:0px">
+                                <a class="waves-effect waves-light btn" style="width:inherit"
+                                    onclick="login('shiratech', 'shiratech')">SIGN IN</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
+        </div>
     </div>
-    <div class="content" id="dashboard">
+    <div class="content" id="dashboard" style="display: none;">
         <div>
             <div class="row blue-grey" style="height:100px; color:white">
                 <div class="row" style="font-weight: 600;">
@@ -299,11 +380,9 @@
             </div>
         </div>
         <div class="container" id="alerts_page" style="display: none;">
-            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="&#xF002; Search" style=" font-family: Arial, FontAwesome;" >
-
             <table class="device-table" id='myTableID'>
                 <thead>
-                    <tr class="header">
+                    <tr>
                         <th>serial</th>
                         <th>Asset</th>
                         <th>Type</th>
@@ -322,7 +401,7 @@
         </div>
 
     </div>
-    <footer class="page-footer" style="background-color:transparent; display:none">
+    <footer class="page-footer" id="footer" style="background-color:transparent; display:none">
         <div class="container"
             style=" width: 100%;border-top:1px solid #b0bec5 ; margin:0px; color:#b0bec5; padding-top:10px ">
             <div class="row">
