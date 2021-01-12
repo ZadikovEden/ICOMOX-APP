@@ -15,7 +15,7 @@
 <style>
     body {
         background-color: #eceff1;
-        font-size: 10px
+        font-size: 13px
     }
 
     .float-right {
@@ -157,7 +157,7 @@
         }
     },
     ]
-
+    //create table from json
     function buildTable() {
         for (var i in tableData) {
             if (tableData[i].alertLevel === 2) {
@@ -168,11 +168,11 @@
                 <td><i class="material-icons">chevron_right</i></td>
             </tr>`
                 var table = $("#TableID")
-                console.log(table);
                 table.append(row)
             }
         }
     }
+    //search function
     function myFunction() {
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("myInput");
@@ -199,6 +199,33 @@
             }
         }
     }
+    //token
+    async function login() {
+    var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+myHeaders.append("Cookie", "JSESSIONID=71703A07846B6ECD97C85CEAAB5A589A.keycloak-864676b5fb-bw4kr; JSESSIONID=7431657E69BF1F093867ADE1E9339BCF");
+
+var urlencoded = new URLSearchParams();
+urlencoded.append("grant_type", "password");
+urlencoded.append("client_id", "login-app");
+urlencoded.append("username", "shiratech");
+urlencoded.append("password", "shiratech");
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: urlencoded,
+  redirect: 'follow'
+};
+
+fetch("https://icomox.poc.icomoxlive.net/auth/realms/icomox/protocol/openid-connect/token", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+}
+
+
+
 </script>
 
 <body>
@@ -209,7 +236,7 @@
         <div>
             <div class="row blue-grey" style="height:100px; color:white">
                 <div class="row" style="font-weight: 600;">
-                    <h5 style="margin:0px; text-align:center; padding-top:20px;">Alerts Management</h5>
+                    <h5 style="margin:0px; text-align:center; padding-top:20px;" onclick="login()"> Alerts Management</h5>
                 </div>
                 <div class="row" style="font-weight: 600;">
                     <h6 style="margin:0px; text-align:center;">TOTAL ASSETS: 15</h6>
@@ -263,7 +290,7 @@
                                 top: 28px;
                                 right: 0px;
                             ">
-                                    <i class="small material-icons">keyboard_arrow_right</i>
+                                    <i class="small material-icons" >keyboard_arrow_right</i>
                                 </div>
                             </div>
                         </div>
