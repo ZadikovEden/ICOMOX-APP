@@ -7,6 +7,7 @@
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -84,77 +85,77 @@
     }
 
     var tableData = [{
-            "id": "07fe6dc8-1d3d-4cc4-b88a-c9fd0a40033b",
-            "deviceId": "12a79ea4bfff7c381ce7030038343038",
-            "alertType": "DEV_ALERT_SHAFT_LOOSE",
-            "alertLevel": 0,
-            "state": "CLOSED",
-            "created": "2021-01-10T09:20:53.475465Z",
-            "closed": "2021-01-10T09:31:14.447529Z",
-            "asset": {
-                "serial": "1234567899",
-                "name": "Orisol3 TOP FAIL",
-                "description": "Motor",
-                "assetGroup": "FAIL",
-                "polesCount": 4,
-                "priority": 5,
-                "maintenancePeriod": 0,
-                "id": "5809ff89-9b49-4b3b-ba54-ff0cc7f05ac5",
-                "devices": null,
-                "alerts": null,
-                "health": 0,
-                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
-                "assetType": "GENERIC"
-            }
-        },
-        {
-            "id": "fd5dbb48-6dea-45c4-9f08-277222bfed9b",
-            "deviceId": "12a79e28afff5c3949ee030038343038",
-            "alertType": "DEV_ALERT_BEAR_WEAR",
-            "alertLevel": 2,
-            "state": "OPEN",
-            "created": "2021-01-07T16:21:28.201534Z",
-            "closed": null,
-            "asset": {
-                "serial": "111",
-                "name": "Shiratech Office Motor2",
-                "description": "Motor",
-                "assetGroup": "Shiratech Office",
-                "polesCount": 4,
-                "priority": 5,
-                "maintenancePeriod": 0,
-                "id": "285c62bf-23c7-430e-b5db-7c0119caedfb",
-                "devices": null,
-                "alerts": null,
-                "health": 0,
-                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
-                "assetType": "GENERIC"
-            }
-        },
-        {
-            "id": "bd7c8ee6-3d6d-45c8-8207-f18a25787732",
-            "deviceId": "12a79e745f1efd384019040038343038",
-            "alertType": "DEV_ALERT_BEAR_WEAR",
-            "alertLevel": 2,
-            "state": "OPEN",
-            "created": "2021-01-07T16:21:28.774029Z",
-            "closed": null,
-            "asset": {
-                "serial": "90210",
-                "name": "Test Bench",
-                "description": "Motor",
-                "assetGroup": "Shiratech ",
-                "polesCount": 6,
-                "priority": 5,
-                "maintenancePeriod": 0,
-                "id": "5044c29f-720e-4b37-8939-2b2c06567fd3",
-                "devices": null,
-                "alerts": null,
-                "health": 0,
-                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
-                "assetType": "GENERIC"
-            }
-        },
+        "id": "07fe6dc8-1d3d-4cc4-b88a-c9fd0a40033b",
+        "deviceId": "12a79ea4bfff7c381ce7030038343038",
+        "alertType": "DEV_ALERT_SHAFT_LOOSE",
+        "alertLevel": 0,
+        "state": "CLOSED",
+        "created": "2021-01-10T09:20:53.475465Z",
+        "closed": "2021-01-10T09:31:14.447529Z",
+        "asset": {
+            "serial": "1234567899",
+            "name": "Orisol3 TOP FAIL",
+            "description": "Motor",
+            "assetGroup": "FAIL",
+            "polesCount": 4,
+            "priority": 5,
+            "maintenancePeriod": 0,
+            "id": "5809ff89-9b49-4b3b-ba54-ff0cc7f05ac5",
+            "devices": null,
+            "alerts": null,
+            "health": 0,
+            "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
+            "assetType": "GENERIC"
+        }
+    },
+    {
+        "id": "fd5dbb48-6dea-45c4-9f08-277222bfed9b",
+        "deviceId": "12a79e28afff5c3949ee030038343038",
+        "alertType": "DEV_ALERT_BEAR_WEAR",
+        "alertLevel": 2,
+        "state": "OPEN",
+        "created": "2021-01-07T16:21:28.201534Z",
+        "closed": null,
+        "asset": {
+            "serial": "111",
+            "name": "Shiratech Office Motor2",
+            "description": "Motor",
+            "assetGroup": "Shiratech Office",
+            "polesCount": 4,
+            "priority": 5,
+            "maintenancePeriod": 0,
+            "id": "285c62bf-23c7-430e-b5db-7c0119caedfb",
+            "devices": null,
+            "alerts": null,
+            "health": 0,
+            "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
+            "assetType": "GENERIC"
+        }
+    },
+    {
+        "id": "bd7c8ee6-3d6d-45c8-8207-f18a25787732",
+        "deviceId": "12a79e745f1efd384019040038343038",
+        "alertType": "DEV_ALERT_BEAR_WEAR",
+        "alertLevel": 2,
+        "state": "OPEN",
+        "created": "2021-01-07T16:21:28.774029Z",
+        "closed": null,
+        "asset": {
+            "serial": "90210",
+            "name": "Test Bench",
+            "description": "Motor",
+            "assetGroup": "Shiratech ",
+            "polesCount": 6,
+            "priority": 5,
+            "maintenancePeriod": 0,
+            "id": "5044c29f-720e-4b37-8939-2b2c06567fd3",
+            "devices": null,
+            "alerts": null,
+            "health": 0,
+            "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
+            "assetType": "GENERIC"
+        }
+    },
     ]
 
     function buildTable() {
@@ -172,13 +173,39 @@
             }
         }
     }
+    function myFunction() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        // table = document.getElementsByClassName("content-table");
+        // tr = table.getElementsByTagName("tr");
+        tr = document.querySelectorAll('.device-table tr');
+        console.log(tr);
+        for (i = 0; i < tr.length; i++) {
+            if (!tr[i].classList.contains('header')) {
+                td = tr[i].getElementsByTagName("td"),
+                    match = false;
+                for (j = 0; j < td.length; j++) {
+                    if (td[j].innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+                if (!match) {
+                    tr[i].style.display = "none";
+                } else {
+                    tr[i].style.display = "";
+                }
+            }
+        }
+    }
 </script>
 
 <body>
-    <div class= "container" id="login" style="display: none;">
-        
+    <div class="container" id="login" style="display: none;">
+
     </div>
-    <div class="content" id= "dashboard">
+    <div class="content" id="dashboard">
         <div>
             <div class="row blue-grey" style="height:100px; color:white">
                 <div class="row" style="font-weight: 600;">
@@ -272,9 +299,11 @@
             </div>
         </div>
         <div class="container" id="alerts_page" style="display: none;">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="&#xF002; Search" style=" font-family: Arial, FontAwesome;" >
+
             <table class="device-table" id='myTableID'>
                 <thead>
-                    <tr>
+                    <tr class="header">
                         <th>serial</th>
                         <th>Asset</th>
                         <th>Type</th>
