@@ -119,10 +119,23 @@
     .after-color {
         border: 2px solid #4087c9 !important;
     }
+
+    /*Login Error message*/
+    .default.has-error {
+        display: block;
+        color: #d32f2f;
+        font-size: 14px;
+    }
+
+    .default {
+        display: none;
+        margin-top: 5px;
+    }
 </style>
 <script>
     //global variable
-    var token ="";
+    var token = "";
+
     function nevigate(show, hide) {
         document.getElementById(hide).style.display = "none";
         document.getElementById(show).style.display = "block";
@@ -130,7 +143,9 @@
 
     }
 
-    function login(username, password) {
+    function login() {
+        const USERNAME = document.getElementById("username").value;
+        const PASSWORD = document.getElementById("password").value;
 
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -138,8 +153,8 @@
         var urlencoded = new URLSearchParams();
         urlencoded.append("grant_type", "password");
         urlencoded.append("client_id", "login-app");
-        urlencoded.append("username", "shiratech");
-        urlencoded.append("password", "shiratech");
+        urlencoded.append("username", USERNAME);
+        urlencoded.append("password", PASSWORD);
 
         var requestOptions = {
             method: 'POST',
@@ -149,9 +164,38 @@
         };
 
         fetch("https://icomox.poc.icomoxlive.net/auth/realms/icomox/protocol/openid-connect/token", requestOptions)
-            .then(response => response.text())
-            .then(result => (token=JSON.parse(result).access_token))
-            .catch(error => console.log('error', error));
+            .then(response => {
+                if (response.ok)
+                    return response.json()
+                return Promise.reject(response)
+            })
+            .then(result => {
+                token = result.access_token;
+                resetLoginPage();
+                nevigate("dashboard", "login");
+            })
+            .catch(error => {
+                error.status === 401 ? handleError("Username or password is incorrect.") :
+                    console.log('error', error)
+            });
+    }
+
+    function logout() {
+        document.getElementById("alerts_page").style.display = "none";
+        document.getElementById("dashboard").style.display = "none";
+        document.getElementById("footer").style.display = "none";
+        document.getElementById("login").style.display = "block";
+        token = "";
+    }
+
+    function resetLoginPage() {
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        document.getElementById("error-label-form").classList.remove("has-error");
+    }
+
+    function handleError(err) {
+        document.getElementById("error-label-form").classList.add("has-error");
     }
 
     function focusInput(e) {
@@ -161,80 +205,6 @@
     function focusOut(e) {
         e.parentElement.classList.remove("after-color");
     }
-
-    var tableData = [{
-            "id": "07fe6dc8-1d3d-4cc4-b88a-c9fd0a40033b",
-            "deviceId": "12a79ea4bfff7c381ce7030038343038",
-            "alertType": "DEV_ALERT_SHAFT_LOOSE",
-            "alertLevel": 0,
-            "state": "CLOSED",
-            "created": "2021-01-10T09:20:53.475465Z",
-            "closed": "2021-01-10T09:31:14.447529Z",
-            "asset": {
-                "serial": "1234567899",
-                "name": "Orisol3 TOP FAIL",
-                "description": "Motor",
-                "assetGroup": "FAIL",
-                "polesCount": 4,
-                "priority": 5,
-                "maintenancePeriod": 0,
-                "id": "5809ff89-9b49-4b3b-ba54-ff0cc7f05ac5",
-                "devices": null,
-                "alerts": null,
-                "health": 0,
-                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
-                "assetType": "GENERIC"
-            }
-        },
-        {
-            "id": "fd5dbb48-6dea-45c4-9f08-277222bfed9b",
-            "deviceId": "12a79e28afff5c3949ee030038343038",
-            "alertType": "DEV_ALERT_BEAR_WEAR",
-            "alertLevel": 2,
-            "state": "OPEN",
-            "created": "2021-01-07T16:21:28.201534Z",
-            "closed": null,
-            "asset": {
-                "serial": "111",
-                "name": "Shiratech Office Motor2",
-                "description": "Motor",
-                "assetGroup": "Shiratech Office",
-                "polesCount": 4,
-                "priority": 5,
-                "maintenancePeriod": 0,
-                "id": "285c62bf-23c7-430e-b5db-7c0119caedfb",
-                "devices": null,
-                "alerts": null,
-                "health": 0,
-                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
-                "assetType": "GENERIC"
-            }
-        },
-        {
-            "id": "bd7c8ee6-3d6d-45c8-8207-f18a25787732",
-            "deviceId": "12a79e745f1efd384019040038343038",
-            "alertType": "DEV_ALERT_BEAR_WEAR",
-            "alertLevel": 2,
-            "state": "OPEN",
-            "created": "2021-01-07T16:21:28.774029Z",
-            "closed": null,
-            "asset": {
-                "serial": "90210",
-                "name": "Test Bench",
-                "description": "Motor",
-                "assetGroup": "Shiratech ",
-                "polesCount": 6,
-                "priority": 5,
-                "maintenancePeriod": 0,
-                "id": "5044c29f-720e-4b37-8939-2b2c06567fd3",
-                "devices": null,
-                "alerts": null,
-                "health": 0,
-                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
-                "assetType": "GENERIC"
-            }
-        },
-    ]
 
     function buildTable() {
         for (var i in tableData) {
@@ -265,19 +235,36 @@
                         <div class="row">
                             <div class="input-field col s12 login-row">
                                 <i class="material-icons prefix login-icon">account_circle</i>
-                                <input placeholder="USERNAME" id="icon_prefix" type="text" class=" login-input"
+                                <input placeholder="USERNAME" id="username" type="text" class=" login-input"
                                     onfocusin="focusInput(this)" onfocusout="focusOut(this)">
                             </div>
+
+                        </div>
+                        <div class="row">
                             <div class="input-field col s12 login-row">
                                 <i class="material-icons prefix login-icon">lock</i>
-                                <input placeholder="PASSWORD" id="icon_prefix" type="password" class=" login-input"
+                                <input placeholder="PASSWORD" id="password" type="password" class=" login-input"
                                     onfocusin="focusInput(this)" onfocusout="focusOut(this)">
                             </div>
                         </div>
                         <div class="row">
+                            <div class="default" id="error-label-form">
+                                <span class="error-label">
+                                    <svg aria-hidden="true" class="stUf5b qpSchb" fill="currentColor" focusable="false"
+                                        width="16px" height="16px" viewBox="0 0 24 24"
+                                        xmlns="https://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z">
+                                        </path>
+                                    </svg>
+                                    Username or password is incorrect.
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col s12" style="padding:0px">
-                                <a class="waves-effect waves-light btn" style="width:inherit"
-                                    onclick="login('shiratech', 'shiratech')">SIGN IN</a>
+                                <a class="waves-effect waves-light btn" style="width:inherit" onclick="login()">SIGN
+                                    IN</a>
                             </div>
                         </div>
                     </form>
@@ -411,7 +398,7 @@
                     </span>
                     <span style="display: flex;justify-content: center">DASHBOARD</span>
                 </div>
-                <div class="col s6">
+                <div class="col s6" onclick="logout()">
                     <span style="display: flex;justify-content: center">
                         <i class="small material-icons">settings</i>
                     </span>
