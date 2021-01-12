@@ -40,31 +40,145 @@
     .card .card-content .card-title {
         line-height: 20px;
     }
-    footer{
-        display:block;
+
+    footer {
+        display: block;
     }
+
     html {
-  height: 100%;
-}
-body {
-  min-height: 100%;
-  display: grid;
-  grid-template-rows: 1fr auto;
-}
-.footer {
-  grid-row-start: 3;
-  grid-row-end: 3;
-}
+        height: 100%;
+    }
+
+    body {
+        min-height: 100%;
+        display: grid;
+        grid-template-rows: 1fr auto;
+    }
+
+    .footer {
+        grid-row-start: 3;
+        grid-row-end: 3;
+    }
+
+    /*Alerts Page*/
+    th,
+    td {
+        padding-right: 5px;
+    }
+
+    tbody tr {
+        box-sizing: border-box;
+        border: 1px solid #e5ecf0;
+        border-radius: 18px;
+        background-color: #fff;
+        box-shadow: 0 2px 28px 0 rgba(198, 208, 229, .5);
+    }
 </style>
 <script>
-    function showPage(e, breadcrumbText) {
-        let id = e.id;
-        id.includes("home_page") ? homePage("home_page", id + "_breadcrumb") : alertsPage(breadcrumbText)
+    function nevigate(show, hide) {
+        document.getElementById(hide).style.display = "none";
+        document.getElementById(show).style.display = "block";
+    }
+    function login(username, password) {
+
+    }
+
+    var tableData = [{
+            "id": "07fe6dc8-1d3d-4cc4-b88a-c9fd0a40033b",
+            "deviceId": "12a79ea4bfff7c381ce7030038343038",
+            "alertType": "DEV_ALERT_SHAFT_LOOSE",
+            "alertLevel": 0,
+            "state": "CLOSED",
+            "created": "2021-01-10T09:20:53.475465Z",
+            "closed": "2021-01-10T09:31:14.447529Z",
+            "asset": {
+                "serial": "1234567899",
+                "name": "Orisol3 TOP FAIL",
+                "description": "Motor",
+                "assetGroup": "FAIL",
+                "polesCount": 4,
+                "priority": 5,
+                "maintenancePeriod": 0,
+                "id": "5809ff89-9b49-4b3b-ba54-ff0cc7f05ac5",
+                "devices": null,
+                "alerts": null,
+                "health": 0,
+                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
+                "assetType": "GENERIC"
+            }
+        },
+        {
+            "id": "fd5dbb48-6dea-45c4-9f08-277222bfed9b",
+            "deviceId": "12a79e28afff5c3949ee030038343038",
+            "alertType": "DEV_ALERT_BEAR_WEAR",
+            "alertLevel": 2,
+            "state": "OPEN",
+            "created": "2021-01-07T16:21:28.201534Z",
+            "closed": null,
+            "asset": {
+                "serial": "111",
+                "name": "Shiratech Office Motor2",
+                "description": "Motor",
+                "assetGroup": "Shiratech Office",
+                "polesCount": 4,
+                "priority": 5,
+                "maintenancePeriod": 0,
+                "id": "285c62bf-23c7-430e-b5db-7c0119caedfb",
+                "devices": null,
+                "alerts": null,
+                "health": 0,
+                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
+                "assetType": "GENERIC"
+            }
+        },
+        {
+            "id": "bd7c8ee6-3d6d-45c8-8207-f18a25787732",
+            "deviceId": "12a79e745f1efd384019040038343038",
+            "alertType": "DEV_ALERT_BEAR_WEAR",
+            "alertLevel": 2,
+            "state": "OPEN",
+            "created": "2021-01-07T16:21:28.774029Z",
+            "closed": null,
+            "asset": {
+                "serial": "90210",
+                "name": "Test Bench",
+                "description": "Motor",
+                "assetGroup": "Shiratech ",
+                "polesCount": 6,
+                "priority": 5,
+                "maintenancePeriod": 0,
+                "id": "5044c29f-720e-4b37-8939-2b2c06567fd3",
+                "devices": null,
+                "alerts": null,
+                "health": 0,
+                "tenantId": "ab9c9eec-a7fe-4708-951c-dd9c06ee9c9c",
+                "assetType": "GENERIC"
+            }
+        },
+    ]
+
+    function buildTable() {
+        for (var i in tableData) {
+            if (tableData[i].alertLevel === 2) {
+                var row = `<tr>
+                <td>${tableData[i].asset.serial}</td>
+                <td>${tableData[i].asset.name}</td>
+                <td>${tableData[i].alertType}</td>
+                <td><i class="material-icons">chevron_right</i></td>
+            </tr>`
+                var table = $("#TableID")
+                console.log(table);
+                table.append(row)
+            }
+        }
     }
 </script>
 
 <body>
-    <div class="content">
+    <div class= "container" id="login">
+        
+    </div>
+    <div class="content" id= "dashboard" style="display: none;">
         <div>
             <div class="row blue-grey" style="height:100px; color:white">
                 <div class="row" style="font-weight: 600;">
@@ -76,12 +190,13 @@ body {
             </div>
         </div>
         <div calss="container" style="margin-top:20px" id="home_page">
-            <div class="row" onclick="showPage(this, 'High Level Alerts')" id="high_level_alerts">
+            <div class="row" onclick="nevigate('alerts_page','home_page')" id="high_level_alerts">
                 <div class="col s12 m6">
                     <div class="card white" style="color:#607d8b; border-radius: 5px;">
                         <div class="card-content" style="padding:15px">
                             <div class="row" style="margin: 0px;">
-                                <div class="col s3 red lighten-1" style=" height:55px; border-radius:5px; position:relative">
+                                <div class="col s3 red lighten-1"
+                                    style=" height:55px; border-radius:5px; position:relative">
                                     <i class="material-icons" style="position: absolute;top: 13px; left: 31%; color:white;
                                     font-size: 2.2rem;">error</i>
                                 </div>
@@ -97,17 +212,18 @@ body {
                                     <i class="small material-icons">keyboard_arrow_right</i>
                                 </div>
                             </div>
-    
+
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row" onclick="showPage(this, 'High Level Alerts')" id="medium_level_alerts">
+            <div class="row" onclick="nevigate('alerts_page','home_page')" id="medium_level_alerts">
                 <div class="col s12 m6">
                     <div class="card white" style="color:#607d8b; border-radius: 5px;">
                         <div class="card-content" style="padding:15px">
                             <div class="row" style="margin: 0px;">
-                                <div class="col s3 amber accent-2" style=" height:55px; border-radius:5px; position:relative">
+                                <div class="col s3 amber accent-2"
+                                    style=" height:55px; border-radius:5px; position:relative">
                                     <i class="material-icons" style="position: absolute;top: 13px; left: 31%; color:white;
                                     font-size: 2.2rem;">warning</i>
                                 </div>
@@ -123,17 +239,17 @@ body {
                                     <i class="small material-icons">keyboard_arrow_right</i>
                                 </div>
                             </div>
-    
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row" onclick="showPage(this, 'High Level Alerts')" id="normal_operation">
+            <div class="row" onclick="nevigate('alerts_page','home_page')" id="normal_operation">
                 <div class="col s12 m6">
                     <div class="card white" style="color:#607d8b; border-radius: 5px;">
                         <div class="card-content" style="padding:15px">
                             <div class="row" style="margin: 0px;">
-                                <div class="col s3 green lighten-2" style=" height:55px; border-radius:5px; position:relative">
+                                <div class="col s3 green lighten-2"
+                                    style=" height:55px; border-radius:5px; position:relative">
                                     <i class="material-icons" style="position: absolute;top: 13px; left: 31%; color:white;
                                     font-size: 2.2rem;">check_circle</i>
                                 </div>
@@ -149,18 +265,39 @@ body {
                                     <i class="small material-icons">keyboard_arrow_right</i>
                                 </div>
                             </div>
-    
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="container" id="alerts_page" style="display: none;">
+            <table class="device-table" id='myTableID'>
+                <thead>
+                    <tr>
+                        <th>serial</th>
+                        <th>Asset</th>
+                        <th>Type</th>
+                        <th></th>
+                    </tr>
+
+                </thead>
+                <tbody id='TableID'>
+
+
+                </tbody>
+                <script>
+                    buildTable()
+                </script>
+            </table>
+        </div>
 
     </div>
-    <footer class="page-footer" style="background-color:transparent">
-        <div class="container" style=" width: 100%;border-top:1px solid #b0bec5 ; margin:0px; color:#b0bec5; padding-top:10px ">
-            <div class="row" > 
-                <div class="col s6">
+    <footer class="page-footer" style="background-color:transparent; display:none">
+        <div class="container"
+            style=" width: 100%;border-top:1px solid #b0bec5 ; margin:0px; color:#b0bec5; padding-top:10px ">
+            <div class="row">
+                <div class="col s6" onclick="nevigate('home_page', 'alerts_page')">
                     <span style="display: flex;justify-content: center">
                         <i class="small material-icons">dashboard</i>
                     </span>
@@ -172,30 +309,12 @@ body {
                     </span>
                     <span style="display: flex;justify-content: center">SETTINGS</span>
                 </div>
-                
+
             </div>
         </div>
     </footer>
-    
-    <div class="container" id="alerts_page" style="display: none;">
-        <table class="device-table">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Asset</th>
-                    <th>Type</th>
-                    <th>i</th>
-                </tr>
-            </thead>
-            <tbody class="device-tableBody">
-                <tr>
-                    <td>Name</td>
-                    <td>Item Name</td>
-                    <td>Item Price</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+
+
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
