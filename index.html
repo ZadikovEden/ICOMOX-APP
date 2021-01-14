@@ -17,8 +17,24 @@
         font-size: 10px
     }
 
+    .container-95 {
+        width: 95%;
+    }
+
+    .overflow-y {
+        overflow-y: scroll;
+    }
+
     ::placeholder {
         color: #78909c;
+    }
+
+    .padding-bottom {
+        padding-bottom: 0px !important;
+    }
+
+    .margin-bottom {
+        margin-bottom: 0px;
     }
 
     .float-right {
@@ -33,12 +49,16 @@
         max-width: 290px;
     }
 
+    .icomox {
+        max-width: 100px;
+    }
+
     .nav-wrapper {
         padding: 0px 15px;
     }
 
     .card .card-title {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .font-weight-600 {
@@ -96,6 +116,10 @@
         border: 2px solid #04003e;
     }
 
+    .search-input {
+        border: 2px solid #263238;
+    }
+
     input[type=text]:not(.browser-default) {
         border-bottom: none !important
     }
@@ -131,16 +155,54 @@
         display: none;
         margin-top: 5px;
     }
+
+    /*Alerts Page*/
+    .card .card-content {
+        padding: 10px;
+    }
+
+    .card .card-content .card-title i {
+        line-height: 18px;
+    }
+
+    .card .card-content .card-title.date-time {
+        font-size: 10px;
+        color: #90a4ae;
+        font-weight: 500;
+    }
+
+    .card .card-content .card-title.asset {
+        font-size: 1.1rem;
+        color: #263238;
+        font-weight: 500;
+    }
+
+    #custom_header {
+        letter-spacing: 0.55px;
+    }
 </style>
 <script>
     //global variable
     var token = "";
+    var token_obj = {};
+    var screen_height = window.screen.height + "px";
+    var height_style = "calc(" + screen_height + " - 220px)";
+
+    function setHight(id) {
+        //document.getElementById(id).style.height = height_style;
+    }
+
+    function setHeader(total_assets, severity) {
+        document.getElementById("custom_header").innerText = severity;
+        // document.getElementById("custom_header_total").innerText = "TOTAL ASSETS: " + total_assets;
+    }
 
     function nevigate(show, hide) {
         document.getElementById(hide).style.display = "none";
         document.getElementById(show).style.display = "block";
+        setHight(show);
         document.getElementById("footer").style.display = "block";
-
+        document.getElementById("header").style.display = "block";
     }
 
     function login() {
@@ -153,8 +215,8 @@
         var urlencoded = new URLSearchParams();
         urlencoded.append("grant_type", "password");
         urlencoded.append("client_id", "login-app");
-        urlencoded.append("username", USERNAME);
-        urlencoded.append("password", PASSWORD);
+        urlencoded.append("username", "shiratech");
+        urlencoded.append("password", "shiratech");
 
         var requestOptions = {
             method: 'POST',
@@ -171,8 +233,11 @@
             })
             .then(result => {
                 token = result.access_token;
+                token_obj = result;
                 resetLoginPage();
-                nevigate("dashboard", "login");
+                //fetchData();
+            nevigate("home_page", "login");
+
             })
             .catch(error => {
                 error.status === 401 ? handleError("Username or password is incorrect.") :
@@ -180,11 +245,31 @@
             });
     }
 
+    function fetchData() {
+        var myHeaders = new Headers();
+        document.getElementById("msg").innerText = token;
+        myHeaders.append("Authorization","Bearer " + token);
+        myHeaders.append("Cookie", "JSESSIONID=8697BC3045554AF9477C2BB325A217E1");
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+
+        fetch("https://icomox.poc.icomoxlive.net/rest/ticket/opened", requestOptions)
+            .then(response => response.text())
+            .then(result => document.getElementById("msg").innerText = result)
+            .catch(error => document.getElementById("msg").innerText = error);
+    }
+
     function logout() {
         document.getElementById("alerts_page").style.display = "none";
-        document.getElementById("dashboard").style.display = "none";
+        document.getElementById("home_page").style.display = "none";
         document.getElementById("footer").style.display = "none";
+        document.getElementById("header").style.display = "none";
         document.getElementById("login").style.display = "block";
+        setHeader("15", "ALERTS MANAGEMENT")
         token = "";
     }
 
@@ -205,132 +290,128 @@
     function focusOut(e) {
         e.parentElement.classList.remove("after-color");
     }
-
-    function buildTable() {
-        for (var i in tableData) {
-            if (tableData[i].alertLevel === 2) {
-                var row = `<tr>
-                <td>${tableData[i].asset.serial}</td>
-                <td>${tableData[i].asset.name}</td>
-                <td>${tableData[i].alertType}</td>
-                <td><i class="material-icons">chevron_right</i></td>
-            </tr>`
-                var table = $("#TableID")
-                table.append(row)
-            }
-        }
-    }
 </script>
 
 <body>
-    <div id="login" class="gradient-background">
-        <div class="container">
-            <div class="row" style="display:block;text-align: center; margin-top:70px">
-                <img class="logo"
-                    src="https://www.hitprojectscenter.com/matak/request/images/Shiratech_Logo_Pos_Hor.png">
+    <div>
+        <header id="header" style="display: none;">
+            <div>
+                <div class="row blue-grey" style="color:white">
+                    <div class="row margin-bottom"
+                        style="display:block;text-align: center; padding: 20px 0px 0px 0px; ">
+                        <img class="" style="max-width:110px"
+                            src="https://www.hitprojectscenter.com/matak/request/images/imageedit_3_6350836141.png">
+                    </div>
+                    <div class="row" style="font-weight: 600;">
+                        <h5 style="margin:0px; text-align:center; 
+                        padding-top:20px; font-size: 1.45rem" id="custom_header">ALERTS
+                            MANAGEMENT</h5>
+                    </div>
+
+                </div>
             </div>
+        </header>
+        <div id="login">
             <div class="container">
-                <div class="row" style="color:#04003e">
-                    <form class="col s12">
-                        <div class="row">
-                            <div class="input-field col s12 login-row">
-                                <i class="material-icons prefix login-icon">account_circle</i>
-                                <input placeholder="USERNAME" id="username" type="text" class=" login-input"
-                                    onfocusin="focusInput(this)" onfocusout="focusOut(this)">
+                <div class="row" style="display:block;text-align: center; margin-top:6rem">
+                    <img class="logo"
+                        src="https://www.hitprojectscenter.com/matak/request/images/Shiratech_Logo_Pos_Hor.png">
+                </div>
+                <div class="container">
+                    <div class="row" style="color:#04003e">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12 login-row">
+                                    <i class="material-icons prefix login-icon">account_circle</i>
+                                    <input placeholder="USERNAME" id="username" type="text" class=" login-input"
+                                        onfocusin="focusInput(this)" onfocusout="focusOut(this)">
+                                </div>
                             </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="input-field col s12 login-row">
-                                <i class="material-icons prefix login-icon">lock</i>
-                                <input placeholder="PASSWORD" id="password" type="password" class=" login-input"
-                                    onfocusin="focusInput(this)" onfocusout="focusOut(this)">
+                            <div class="row">
+                                <div class="input-field col s12 login-row">
+                                    <i class="material-icons prefix login-icon">lock</i>
+                                    <input placeholder="PASSWORD" id="password" type="password" class=" login-input"
+                                        onfocusin="focusInput(this)" onfocusout="focusOut(this)">
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="default" id="error-label-form">
-                                <span class="error-label">
-                                    <svg aria-hidden="true" class="stUf5b qpSchb" fill="currentColor" focusable="false"
-                                        width="16px" height="16px" viewBox="0 0 24 24"
-                                        xmlns="https://www.w3.org/2000/svg">
-                                        <path
-                                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z">
-                                        </path>
-                                    </svg>
-                                    Username or password is incorrect.
-                                </span>
+                            <div class="row">
+                                <div class="default" id="error-label-form">
+                                    <span class="error-label">
+                                        <svg aria-hidden="true" class="stUf5b qpSchb" fill="currentColor"
+                                            focusable="false" width="16px" height="16px" viewBox="0 0 24 24"
+                                            xmlns="https://www.w3.org/2000/svg">
+                                            <path
+                                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z">
+                                            </path>
+                                        </svg>
+                                        Username or password is incorrect.
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col s12" style="padding:0px">
-                                <a class="waves-effect waves-light btn" style="width:inherit" onclick="login()">SIGN
-                                    IN</a>
+                            <div class="row">
+                                <div class="col s12" style="padding:0px">
+                                    <a class="waves-effect waves-light btn" style="width:inherit" onclick="login()">SIGN
+                                        IN</a>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                </div>
+                <div class="row margin-bottom" style="display:block;text-align: center; margin-top:70px">
+                    <img class="icomox"
+                        src="https://www.hitprojectscenter.com/matak/request/images/Shiratech_iCOMOX.png">
+                </div>
+                <div class="row" style="display:block;text-align: center;">
+                    <img class="icomox" src="https://www.hitprojectscenter.com/matak/request/images/iCOMOX hero.png">
                 </div>
             </div>
-
         </div>
-    </div>
-    <div class="content" id="dashboard" style="display: none;">
-        <div>
-            <div class="row blue-grey" style="height:100px; color:white">
-                <div class="row" style="font-weight: 600;">
-                    <h5 style="margin:0px; text-align:center; padding-top:20px;">Alerts Management</h5>
-                </div>
-                <div class="row" style="font-weight: 600;">
-                    <h6 style="margin:0px; text-align:center;">TOTAL ASSETS: 15</h6>
-                </div>
-            </div>
-        </div>
-        <div calss="container" style="margin-top:20px" id="home_page">
-            <div class="row" onclick="nevigate('alerts_page','home_page')" id="high_level_alerts">
+        <div class="container container-95" id="home_page" style="display: none; height: calc(100% - 230px)">
+            <div class="row" onclick="nevigate('alerts_page','home_page') , setHeader('7','HIGH LEVEL ALERTS')"
+                id="high_level_alerts">
                 <div class="col s12 m6">
-                    <div class="card white" style="color:#607d8b; border-radius: 5px;">
+                    <div class="card white" style="color:#263238; border-radius: 2px;">
                         <div class="card-content" style="padding:15px">
                             <div class="row" style="margin: 0px;">
                                 <div class="col s3 red lighten-1"
                                     style=" height:55px; border-radius:5px; position:relative">
-                                    <i class="material-icons" style="position: absolute;top: 13px; left: 31%; color:white;
-                                    font-size: 2.2rem;">error</i>
+                                    <i class="material-icons" style="position: absolute;top: 12px; left: 28%; color:white;
+                                            font-size: 2.2rem;">error</i>
                                 </div>
-                                <div class="col s7" style="padding-left:20px">
+                                <div class="col s7" style="padding-left:15px">
                                     <span class="card-title" style="font-weight: 600; font-size:22px">7 Assets</span>
-                                    <span class="card-title">High level alert</span>
+                                    <span class="card-title">High level alerts</span>
                                 </div>
                                 <div class="col s2" style="
-                                position: absolute;
-                                top: 28px;
-                                right: 0px;
-                            ">
+                                        position: absolute;
+                                        top: 28px;
+                                        right: 0px;">
                                     <i class="small material-icons">keyboard_arrow_right</i>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row" onclick="nevigate('alerts_page','home_page')" id="medium_level_alerts">
+            <div class="row" onclick="nevigate('alerts_page','home_page'), setHeader('3','MEDIUM LEVEL ALERTS')"
+                id="medium_level_alerts">
                 <div class="col s12 m6">
-                    <div class="card white" style="color:#607d8b; border-radius: 5px;">
+                    <div class="card white" style="color:#263238; border-radius: 2px;">
                         <div class="card-content" style="padding:15px">
                             <div class="row" style="margin: 0px;">
                                 <div class="col s3 amber accent-2"
                                     style=" height:55px; border-radius:5px; position:relative">
-                                    <i class="material-icons" style="position: absolute;top: 13px; left: 31%; color:white;
-                                    font-size: 2.2rem;">warning</i>
+                                    <i class="material-icons" style="position: absolute;top: 12px; left: 28%; color:white;
+                                            font-size: 2.2rem;">warning</i>
                                 </div>
                                 <div class="col s7" style="padding-left:15px">
                                     <span class="card-title" style="font-weight: 600; font-size:22px">3 Assets</span>
                                     <span class="card-title">Medium level alerts</span>
                                 </div>
                                 <div class="col s2" style="
-                                position: absolute;
-                                top: 28px;
-                                right: 0px;
-                            ">
+                                        position: absolute;
+                                        top: 28px;
+                                        right: 0px;">
                                     <i class="small material-icons">keyboard_arrow_right</i>
                                 </div>
                             </div>
@@ -338,77 +419,172 @@
                     </div>
                 </div>
             </div>
-            <div class="row" onclick="nevigate('alerts_page','home_page')" id="normal_operation">
+            <div class="row" onclick="nevigate('alerts_page','home_page'), setHeader('5','NORMAL OPERATION')"
+                id="normal_operation">
                 <div class="col s12 m6">
-                    <div class="card white" style="color:#607d8b; border-radius: 5px;">
+                    <div class="card white" style="color:#263238; border-radius: 2px;">
                         <div class="card-content" style="padding:15px">
                             <div class="row" style="margin: 0px;">
                                 <div class="col s3 green lighten-2"
                                     style=" height:55px; border-radius:5px; position:relative">
-                                    <i class="material-icons" style="position: absolute;top: 13px; left: 31%; color:white;
-                                    font-size: 2.2rem;">check_circle</i>
+                                    <i class="material-icons" style="position: absolute;top: 12px; left: 31%; color:white;
+                                            font-size: 2.2rem;">check_circle</i>
                                 </div>
                                 <div class="col s7" style="padding-left:20px">
                                     <span class="card-title" style="font-weight: 600; font-size:22px">5 Assets</span>
                                     <span class="card-title">Normal Operation</span>
                                 </div>
                                 <div class="col s2" style="
-                                position: absolute;
-                                top: 28px;
-                                right: 0px;
-                            ">
+                                        position: absolute;
+                                        top: 28px;
+                                        right: 0px;">
                                     <i class="small material-icons">keyboard_arrow_right</i>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container" id="alerts_page" style="display: none;">
-            <table class="device-table" id='myTableID'>
-                <thead>
-                    <tr>
-                        <th>serial</th>
-                        <th>Asset</th>
-                        <th>Type</th>
-                        <th></th>
-                    </tr>
-
-                </thead>
-                <tbody id='TableID'>
-
-
-                </tbody>
-                <script>
-                    buildTable()
-                </script>
-            </table>
-        </div>
-
-    </div>
-    <footer class="page-footer" id="footer" style="background-color:transparent; display:none">
-        <div class="container"
-            style=" width: 100%;border-top:1px solid #b0bec5 ; margin:0px; color:#b0bec5; padding-top:10px ">
-            <div class="row">
-                <div class="col s6" onclick="nevigate('home_page', 'alerts_page')">
-                    <span style="display: flex;justify-content: center">
-                        <i class="small material-icons">dashboard</i>
-                    </span>
-                    <span style="display: flex;justify-content: center">DASHBOARD</span>
+        <div class="container container-95" id="alerts_page"
+            style="display: none; width:95%; height: calc(100% - 230px)">
+            <div class="row margin-bottom" style="padding:0px 0.75rem">
+                <div class="input-field col s12 search-input " style="margin-top:0px; border-radius: 3px;">
+                    <i class="material-icons prefix login-icon">search</i>
+                    <input placeholder="Search" id="search" type="text" class=" login-input"
+                        onfocusin="focusInput(this)" onfocusout="focusOut(this)">
                 </div>
-                <div class="col s6" onclick="logout()">
-                    <span style="display: flex;justify-content: center">
-                        <i class="small material-icons">settings</i>
-                    </span>
-                    <span style="display: flex;justify-content: center">SETTINGS</span>
-                </div>
-
             </div>
-        </div>
-    </footer>
+            <div class="row margin-bottom">
+                <div class="col s12">
+                    <div class="card white">
+                        <div class="card-content padding-bottom">
+                            <div class="row margin-bottom">
+                                <div class="col s1">
+                                    <div class="row margin-bottom">
+                                        <div class="col s12" style="height:74px;
+                                        margin-left:10px; width:1px; border-radius: 1px;
+                                         background: #29b6f6;"></div>
+                                    </div>
+                                </div>
+                                <div class="col s11">
+                                    <div class="col s12">
+                                        <span class="card-title date-time">07.01.21 at 16:21:28</span>
+                                    </div>
+                                    <div class="col s10">
+                                        <span class="card-title asset" style="margin-bottom: 0px!important;">Shiratech
+                                            Office Motor2</span>
+                                    </div>
+                                    <div class="col s2">
+                                        <span class="card-title type" style="margin-bottom: 0px!important;">
+                                            <i class="material-icons small"
+                                                style="color:#263238; margin-bottom: 0px!important;">chevron_right</i>
+                                        </span>
+                                    </div>
+                                    <div class="col s2">
+                                        <span class="card-title body">DEV_ALERT_BEAR_WEAR</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom">
+                <div class="col s12">
+                    <div class="card white">
+                        <div class="card-content padding-bottom">
+                            <div class="row margin-bottom">
+                                <div class="col s1">
+                                    <div class="row margin-bottom">
+                                        <div class="col s12" style="height:74px;
+                                        margin-left:10px; width:1px; border-radius: 1px;
+                                         background: #29b6f6;"></div>
+                                    </div>
+                                </div>
+                                <div class="col s11">
+                                    <div class="col s12">
+                                        <span class="card-title date-time">07.01.21 at 16:21:28</span>
+                                    </div>
+                                    <div class="col s10">
+                                        <span class="card-title asset" style="margin-bottom: 0px!important;">Shiratech
+                                            Office Motor2</span>
+                                    </div>
+                                    <div class="col s2">
+                                        <span class="card-title type" style="margin-bottom: 0px!important;">
+                                            <i class="material-icons small"
+                                                style="color:#263238; margin-bottom: 0px!important;">chevron_right</i>
+                                        </span>
+                                    </div>
+                                    <div class="col s2">
+                                        <span class="card-title body">DEV_ALERT_BEAR_WEAR</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row margin-bottom">
+                <div class="col s12">
+                    <div class="card white">
+                        <div class="card-content padding-bottom">
+                            <div class="row margin-bottom">
+                                <div class="col s1">
+                                    <div class="row margin-bottom">
+                                        <div class="col s12" style="height:74px;
+                                        margin-left:10px; width:1px; border-radius: 1px;
+                                         background: #29b6f6;"></div>
+                                    </div>
+                                </div>
+                                <div class="col s11">
+                                    <div class="col s12">
+                                        <span class="card-title date-time">07.01.21 at 16:21:28</span>
+                                    </div>
+                                    <div class="col s10">
+                                        <span class="card-title asset" style="margin-bottom: 0px!important;">Shiratech
+                                            Office Motor2</span>
+                                    </div>
+                                    <div class="col s2">
+                                        <span class="card-title type" style="margin-bottom: 0px!important;">
+                                            <i class="material-icons small"
+                                                style="color:#263238; margin-bottom: 0px!important;">chevron_right</i>
+                                        </span>
+                                    </div>
+                                    <div class="col s2">
+                                        <span class="card-title body">DEV_ALERT_BEAR_WEAR</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+
+        </div>
+        <footer class="page-footer" id="footer" style="background-color:transparent; display:none">
+            <div class="container"
+                style=" width: 100%;border-top:1px solid #b0bec5 ; margin:0px; color:#b0bec5; padding-top:10px ">
+                <div class="row">
+                    <div class="col s6"
+                        onclick="nevigate('home_page', 'alerts_page'), setHeader('15','ALERTS MANAGEMENT')">
+                        <span style="display: flex;justify-content: center">
+                            <i class="small material-icons">dashboard</i>
+                        </span>
+                        <span style="display: flex;justify-content: center">DASHBOARD</span>
+                    </div>
+                    <div class="col s6" onclick="logout()">
+                        <span style="display: flex;justify-content: center">
+                            <i class="small material-icons">exit_to_app</i>
+                        </span>
+                        <span style="display: flex;justify-content: center">LOGOUT</span>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+    </div>
 
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
