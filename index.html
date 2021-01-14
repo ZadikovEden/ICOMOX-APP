@@ -203,8 +203,8 @@
         var urlencoded = new URLSearchParams();
         urlencoded.append("grant_type", "password");
         urlencoded.append("client_id", "login-app");
-        urlencoded.append("username", "shiratech");
-        urlencoded.append("password", "shiratech");
+        urlencoded.append("username", USERNAME);
+        urlencoded.append("password", PASSWORD);
 
         var requestOptions = {
             method: 'POST',
@@ -257,7 +257,7 @@
         document.getElementById("footer").style.display = "none";
         document.getElementById("header").style.display = "none";
         document.getElementById("login").style.display = "block";
-        setHeader("15", "ALERTS MANAGEMENT")
+        //setHeader("15", "ALERTS MANAGEMENT")
         token = "";
     }
 
