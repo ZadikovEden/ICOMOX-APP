@@ -88,7 +88,7 @@
         grid-row-end: 3;
     }
 
-    
+
 
     /*Login Page CSS*/
     .login-icon {
@@ -257,7 +257,7 @@
         document.getElementById("footer").style.display = "none";
         document.getElementById("header").style.display = "none";
         document.getElementById("login").style.display = "block";
-        //setHeader("15", "ALERTS MANAGEMENT")
+        setHeader("15", "ALERTS MANAGEMENT")
         token = "";
     }
 
@@ -285,19 +285,33 @@
         <header id="header" style="display: none;">
             <div>
                 <div class="row blue-grey" style="color:white">
-                    <div class="row margin-bottom"
-                        style="display:block;text-align: center; padding: 20px 0px 0px 0px; ">
-                        <img class="" style="max-width:110px"
-                            src="https://www.hitprojectscenter.com/matak/request/images/imageedit_3_6350836141.png">
+                    <div class="col s6">
+                        <div class="row margin-bottom" style="display:block; padding: 20px 0px 20px 20px; ">
+
+                            <img class="" style="max-width:110px"
+                                src="https://www.hitprojectscenter.com/matak/request/images/imageedit_3_6350836141.png">
+                        </div>
                     </div>
-                    <div class="row" style="font-weight: 600;">
+                    <div class="col s6" onclick="logout()" style="display: grid;justify-content: right; padding-right: 0px;">
+                        <div class="row" style=" margin: 0px;" style="display: grid;justify-content: right;">
+                            <div class="col s6" style="font-size: 12px; padding-top:22px; padding-right: 0px;">
+                                <span style="padding-right: 10px;">LOGOUT</span>
+                            </div>
+                            <div class="col s6" style="font-size: 12px; padding-top:25px; padding-right: 0px; padding-left: 14px;">
+                                <span >
+                                    <i class=" material-icons" style="font-size: 14px;">arrow_forward</i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- <div class="row" style="font-weight: 600;">
                         <h5 style="margin:0px; text-align:center; 
                         padding-top:20px; font-size: 1.45rem" id="custom_header">ALERTS
                             MANAGEMENT</h5>
-                    </div>
+                    </div> -->
 
+                    </div>
                 </div>
-            </div>
         </header>
         <div id="login">
             <div class="container">
@@ -458,7 +472,8 @@
                                 <div class="col s11" style="padding: 0px;">
                                     <div class="col s8">
                                         <span class="card-title date-time ">
-                                            <span style="border-right: 2px solid #cfd8dc;  padding-right: 4px;">07.01.21</span>
+                                            <span
+                                                style="border-right: 2px solid #cfd8dc;  padding-right: 4px;">07.01.21</span>
                                             <span style="padding-left: 2px;">16:21:28</span>
                                         </span>
                                     </div>
@@ -501,7 +516,8 @@
                                 <div class="col s11" style="padding: 0px;">
                                     <div class="col s8">
                                         <span class="card-title date-time ">
-                                            <span style="border-right: 2px solid #cfd8dc;  padding-right: 4px;">07.01.21</span>
+                                            <span
+                                                style="border-right: 2px solid #cfd8dc;  padding-right: 4px;">07.01.21</span>
                                             <span style="padding-left: 2px;">16:21:28</span>
                                         </span>
                                     </div>
@@ -544,7 +560,8 @@
                                 <div class="col s11" style="padding: 0px;">
                                     <div class="col s8">
                                         <span class="card-title date-time ">
-                                            <span style="border-right: 2px solid #cfd8dc;  padding-right: 4px;">07.01.21</span>
+                                            <span
+                                                style="border-right: 2px solid #cfd8dc;  padding-right: 4px;">07.01.21</span>
                                             <span style="padding-left: 2px;">16:21:28</span>
                                         </span>
                                     </div>
@@ -579,19 +596,14 @@
             <div class="container"
                 style=" width: 100%;border-top:1px solid #b0bec5 ; margin:0px; color:#b0bec5; padding-top:10px ">
                 <div class="row">
-                    <div class="col s6"
+                    <div class="col s12"
                         onclick="nevigate('home_page', 'alerts_page'), setHeader('15','ALERTS MANAGEMENT')">
                         <span style="display: flex;justify-content: center">
                             <i class="small material-icons">dashboard</i>
                         </span>
                         <span style="display: flex;justify-content: center">DASHBOARD</span>
                     </div>
-                    <div class="col s6" onclick="logout()">
-                        <span style="display: flex;justify-content: center">
-                            <i class="small material-icons">exit_to_app</i>
-                        </span>
-                        <span style="display: flex;justify-content: center">LOGOUT</span>
-                    </div>
+       
 
                 </div>
             </div>
