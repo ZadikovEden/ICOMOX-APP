@@ -88,19 +88,7 @@
         grid-row-end: 3;
     }
 
-    /*Alerts Page*/
-    th,
-    td {
-        padding-right: 5px;
-    }
-
-    tbody tr {
-        box-sizing: border-box;
-        border: 1px solid #e5ecf0;
-        border-radius: 18px;
-        background-color: #fff;
-        box-shadow: 0 2px 28px 0 rgba(198, 208, 229, .5);
-    }
+    
 
     /*Login Page CSS*/
     .login-icon {
@@ -117,7 +105,7 @@
     }
 
     .search-input {
-        border: 2px solid #263238;
+        border-bottom: 1px solid #cfd8dc;
     }
 
     input[type=text]:not(.browser-default) {
@@ -236,7 +224,7 @@
                 token_obj = result;
                 resetLoginPage();
                 //fetchData();
-            nevigate("home_page", "login");
+                nevigate("home_page", "login");
 
             })
             .catch(error => {
@@ -248,7 +236,7 @@
     function fetchData() {
         var myHeaders = new Headers();
         document.getElementById("msg").innerText = token;
-        myHeaders.append("Authorization","Bearer " + token);
+        myHeaders.append("Authorization", "Bearer " + token);
         myHeaders.append("Cookie", "JSESSIONID=8697BC3045554AF9477C2BB325A217E1");
 
         var requestOptions = {
@@ -450,7 +438,7 @@
             style="display: none; width:95%; height: calc(100% - 230px)">
             <div class="row margin-bottom" style="padding:0px 0.75rem">
                 <div class="input-field col s12 search-input " style="margin-top:0px; border-radius: 3px;">
-                    <i class="material-icons prefix login-icon">search</i>
+                    <i class="material-icons prefix login-icon" style=" color:#cfd8dc">search</i>
                     <input placeholder="Search" id="search" type="text" class=" login-input"
                         onfocusin="focusInput(this)" onfocusout="focusOut(this)">
                 </div>
@@ -463,20 +451,28 @@
                                 <div class="col s1">
                                     <div class="row margin-bottom">
                                         <div class="col s12" style="height:74px;
-                                        margin-left:10px; width:1px; border-radius: 1px;
-                                         background: #29b6f6;"></div>
+                                        margin-left:10px; width:1px; border-radius: 2px;
+                                         background: #29b6f6; padding: 3px; margin-bottom: 10px;"></div>
                                     </div>
                                 </div>
-                                <div class="col s11">
-                                    <div class="col s12">
-                                        <span class="card-title date-time">07.01.21 at 16:21:28</span>
+                                <div class="col s11" style="padding: 0px;">
+                                    <div class="col s8">
+                                        <span class="card-title date-time ">
+                                            <span style="border-right: 2px solid #cfd8dc;  padding-right: 4px;">07.01.21</span>
+                                            <span style="padding-left: 2px;">16:21:28</span>
+                                        </span>
+                                    </div>
+                                    <div class="col s4" style="padding: 0px;">
+                                        <span class="card-title date-time" style="background-color:#eeeeee; color: black; justify-items: center;
+                                        display: grid; border-radius: 9px 0 0 9px;">Closed</span>
                                     </div>
                                     <div class="col s10">
                                         <span class="card-title asset" style="margin-bottom: 0px!important;">Shiratech
                                             Office Motor2</span>
                                     </div>
                                     <div class="col s2">
-                                        <span class="card-title type" style="margin-bottom: 0px!important;">
+                                        <span class="card-title type"
+                                            style="margin-bottom: 0px!important; max-height: 20px;">
                                             <i class="material-icons small"
                                                 style="color:#263238; margin-bottom: 0px!important;">chevron_right</i>
                                         </span>
@@ -498,20 +494,28 @@
                                 <div class="col s1">
                                     <div class="row margin-bottom">
                                         <div class="col s12" style="height:74px;
-                                        margin-left:10px; width:1px; border-radius: 1px;
-                                         background: #29b6f6;"></div>
+                                        margin-left:10px; width:1px; border-radius: 2px;
+                                         background: #29b6f6; padding: 3px; margin-bottom: 10px;"></div>
                                     </div>
                                 </div>
-                                <div class="col s11">
-                                    <div class="col s12">
-                                        <span class="card-title date-time">07.01.21 at 16:21:28</span>
+                                <div class="col s11" style="padding: 0px;">
+                                    <div class="col s8">
+                                        <span class="card-title date-time ">
+                                            <span style="border-right: 2px solid #cfd8dc;  padding-right: 4px;">07.01.21</span>
+                                            <span style="padding-left: 2px;">16:21:28</span>
+                                        </span>
+                                    </div>
+                                    <div class="col s4" style="padding: 0px;">
+                                        <span class="card-title date-time" style="background-color:#eeeeee; color: black; justify-items: center;
+                                        display: grid; border-radius: 9px 0 0 9px;">Close</span>
                                     </div>
                                     <div class="col s10">
                                         <span class="card-title asset" style="margin-bottom: 0px!important;">Shiratech
                                             Office Motor2</span>
                                     </div>
                                     <div class="col s2">
-                                        <span class="card-title type" style="margin-bottom: 0px!important;">
+                                        <span class="card-title type"
+                                            style="margin-bottom: 0px!important; max-height: 20px;">
                                             <i class="material-icons small"
                                                 style="color:#263238; margin-bottom: 0px!important;">chevron_right</i>
                                         </span>
@@ -533,20 +537,28 @@
                                 <div class="col s1">
                                     <div class="row margin-bottom">
                                         <div class="col s12" style="height:74px;
-                                        margin-left:10px; width:1px; border-radius: 1px;
-                                         background: #29b6f6;"></div>
+                                        margin-left:10px; width:1px; border-radius: 2px;
+                                         background: #29b6f6; padding: 3px; margin-bottom: 10px;"></div>
                                     </div>
                                 </div>
-                                <div class="col s11">
-                                    <div class="col s12">
-                                        <span class="card-title date-time">07.01.21 at 16:21:28</span>
+                                <div class="col s11" style="padding: 0px;">
+                                    <div class="col s8">
+                                        <span class="card-title date-time ">
+                                            <span style="border-right: 2px solid #cfd8dc;  padding-right: 4px;">07.01.21</span>
+                                            <span style="padding-left: 2px;">16:21:28</span>
+                                        </span>
+                                    </div>
+                                    <div class="col s4" style="padding: 0px;">
+                                        <span class="card-title date-time" style="background-color:#e1f5fe ; color: black; justify-items: center;
+                                        display: grid; border-radius: 9px 0 0 9px;">open</span>
                                     </div>
                                     <div class="col s10">
                                         <span class="card-title asset" style="margin-bottom: 0px!important;">Shiratech
                                             Office Motor2</span>
                                     </div>
                                     <div class="col s2">
-                                        <span class="card-title type" style="margin-bottom: 0px!important;">
+                                        <span class="card-title type"
+                                            style="margin-bottom: 0px!important; max-height: 20px;">
                                             <i class="material-icons small"
                                                 style="color:#263238; margin-bottom: 0px!important;">chevron_right</i>
                                         </span>
