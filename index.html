@@ -5,11 +5,10 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link type="text/css" rel="stylesheet" href="../assets/css/materialize.min.css" media="screen,projection" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <style>
     body {
@@ -169,12 +168,14 @@
         letter-spacing: 0.55px;
     }
 </style>
+
 <script>
     //global variable
     var token = "";
-    var token_obj = {};
+    var tickets = "";
     var screen_height = window.screen.height + "px";
     var height_style = "calc(" + screen_height + " - 220px)";
+
 
     function setHight(id) {
         //document.getElementById(id).style.height = height_style;
@@ -220,12 +221,11 @@
                 return Promise.reject(response)
             })
             .then(result => {
-                token = result.access_token;
-                token_obj = result;
+                token = result.access_token;               
+                fetchData();
+            }).then(reuslt => {
                 resetLoginPage();
-                //fetchData();
                 nevigate("home_page", "login");
-
             })
             .catch(error => {
                 error.status === 401 ? handleError("Username or password is incorrect.") :
@@ -234,21 +234,15 @@
     }
 
     function fetchData() {
-        var myHeaders = new Headers();
-        document.getElementById("msg").innerText = token;
-        myHeaders.append("Authorization", "Bearer " + token);
-        myHeaders.append("Cookie", "JSESSIONID=8697BC3045554AF9477C2BB325A217E1");
-
         var requestOptions = {
             method: 'GET',
-            headers: myHeaders,
             redirect: 'follow'
         };
 
-        fetch("https://icomox.poc.icomoxlive.net/rest/ticket/opened", requestOptions)
-            .then(response => response.text())
-            .then(result => document.getElementById("msg").innerText = result)
-            .catch(error => document.getElementById("msg").innerText = error);
+        fetch(`https://fast-garden-32068.herokuapp.com/tickets/opened/${token}`, requestOptions)
+            .then(response => response.json())
+            .then(result => tickets = result)
+            .catch(error => console.log('error', error));
     }
 
     function logout() {
@@ -287,37 +281,33 @@
                 <div class="row blue-grey" style="color:white">
                     <div class="col s6">
                         <div class="row margin-bottom" style="display:block; padding: 20px 0px 20px 20px; ">
-
                             <img class="" style="max-width:110px"
                                 src="https://www.hitprojectscenter.com/matak/request/images/imageedit_3_6350836141.png">
                         </div>
                     </div>
-                    <div class="col s6" onclick="logout()" style="display: grid;justify-content: right; padding-right: 0px;">
+                    <div class="col s6" onclick="logout()"
+                        style="display: grid;justify-content: right; padding-right: 0px;">
                         <div class="row" style=" margin: 0px;" style="display: grid;justify-content: right;">
                             <div class="col s6" style="font-size: 12px; padding-top:22px; padding-right: 0px;">
                                 <span style="padding-right: 10px;">LOGOUT</span>
                             </div>
-                            <div class="col s6" style="font-size: 12px; padding-top:25px; padding-right: 0px; padding-left: 14px;">
-                                <span >
+                            <div class="col s6"
+                                style="font-size: 12px; padding-top:25px; padding-right: 0px; padding-left: 14px;">
+                                <span>
                                     <i class=" material-icons" style="font-size: 14px;">arrow_forward</i>
                                 </span>
                             </div>
                         </div>
                     </div>
-                        <!-- <div class="row" style="font-weight: 600;">
-                        <h5 style="margin:0px; text-align:center; 
-                        padding-top:20px; font-size: 1.45rem" id="custom_header">ALERTS
-                            MANAGEMENT</h5>
-                    </div> -->
-
-                    </div>
                 </div>
+            </div>
         </header>
         <div id="login">
             <div class="container">
+                <p id="msg">
+                </p>
                 <div class="row" style="display:block;text-align: center; margin-top:6rem">
-                    <img class="logo"
-                        src="https://www.hitprojectscenter.com/matak/request/images/Shiratech_Logo_Pos_Hor.png">
+                    <img class="logo" src="../assets/images/Shiratech_Logo_Pos_Hor.png">
                 </div>
                 <div class="container">
                     <div class="row" style="color:#04003e">
@@ -360,11 +350,10 @@
                     </div>
                 </div>
                 <div class="row margin-bottom" style="display:block;text-align: center; margin-top:70px">
-                    <img class="icomox"
-                        src="https://www.hitprojectscenter.com/matak/request/images/Shiratech_iCOMOX.png">
+                    <img class="icomox" src="../assets/images/Shiratech_iCOMOX.png">
                 </div>
                 <div class="row" style="display:block;text-align: center;">
-                    <img class="icomox" src="https://www.hitprojectscenter.com/matak/request/images/iCOMOX hero.png">
+                    <img class="icomox" src="../assets/images/iCOMOX_hero.png">
                 </div>
             </div>
         </div>
@@ -603,7 +592,7 @@
                         </span>
                         <span style="display: flex;justify-content: center">DASHBOARD</span>
                     </div>
-       
+
 
                 </div>
             </div>
@@ -611,7 +600,7 @@
     </div>
 
     <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script type="text/javascript" src="../assets/js/materialize.min.js"></script>
 </body>
 
 </html>
